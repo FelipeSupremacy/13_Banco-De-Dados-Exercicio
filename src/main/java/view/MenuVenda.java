@@ -10,13 +10,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static java.lang.Double.parseDouble;
-import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
-import static javax.swing.JOptionPane.showInputDialog;
+import static javax.swing.JOptionPane.*;
 
 public class MenuVenda {
     public void menu() {
         String[] item = {"Inserir", "Pesquisar", "Listar",
-                "Atualizar", "Excluir", "Sair"};
+                "Atualizar","Relatório", "Excluir", "Sair"};
         String opcao;
 
         do {
@@ -30,10 +29,21 @@ public class MenuVenda {
 
             switch(opcao.toLowerCase()) {
                 case "inserir" -> inserir();
-                case "venda" -> new MenuVenda().menu();
+                case "relatório" -> relatorio();
             }
         }
         while(!opcao.toLowerCase().equals("sair"));
+    }
+
+    private void relatorio() {
+        List<Venda> lista = new VendaDAO().relatorio();
+        String aux = "";
+        for (Venda venda : lista) {
+            aux += venda.getVendedor().getNome() + "   |   ";
+            aux += venda.getTotal() + "   |   ";
+            aux += venda.getData() + "\n";
+        }
+        showMessageDialog(null, aux);
     }
 
     private void inserir() {

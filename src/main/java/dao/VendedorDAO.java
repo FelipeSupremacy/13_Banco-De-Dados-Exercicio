@@ -41,4 +41,29 @@ public class VendedorDAO implements GenericDAO<Vendedor, Integer> {
         }
         return lista;
     }
+
+    public void atualizar(Vendedor vendedor) {
+        String sql = "update java_vendedor set nome = ? where id = ?";
+        try(Connection connection = ConnectionFactory.obterConexao();
+            PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, vendedor.getNome());
+            ps.setInt(2, vendedor.getId());
+            ps.execute(); // ps.executeUpdate();
+        }
+        catch(SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    public void excluir(Integer id) {
+        String sql = "delete from java_vendedor where id = ?";
+        try(Connection connection = ConnectionFactory.obterConexao();
+            PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ps.execute(); // ps.executeUpdate();
+        }
+        catch(SQLException e) {
+            System.out.println(e);
+        }
+    }
 }
